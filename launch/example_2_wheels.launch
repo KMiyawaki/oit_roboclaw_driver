@@ -1,0 +1,17 @@
+<launch>
+  <arg name="roboclaw_settings" default="$(find oit_roboclaw_driver)/config/example_1_port_1_boards.yaml" />
+  <node pkg="oit_roboclaw_driver" type="oit_roboclaw_driver_node.py" name="oit_roboclaw_driver_node" output="screen" required="true">
+    <!-- load from yaml -->
+    <rosparam command="load" file="$(arg roboclaw_settings)" />
+  </node>
+  <node pkg="oit_roboclaw_driver" type="oit_roboclaw_2_wheels.py" name="oit_roboclaw_2_wheels" output="screen">
+    <param name="~process_rate" value="20"/>
+    <param name="~tread" value="0.42"/>
+    <!-- <param name="~ticks_per_meter" value="3870.65"/> RobotZone DC motor -->
+    <!-- PG27E -->
+    <param name="~ticks_per_meter" value="2131.12"/>
+    <param name="~linear_max" value="0.3"/>
+    <!--Radians-->
+    <param name="~angular_max" value="0.52"/>
+  </node>
+</launch>

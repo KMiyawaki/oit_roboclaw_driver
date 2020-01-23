@@ -1,0 +1,17 @@
+<launch>
+  <arg name="roboclaw_settings" default="$(find oit_roboclaw_driver)/config/icart_01.yaml" />
+  <node pkg="oit_roboclaw_driver" type="oit_roboclaw_driver_node.py" name="oit_roboclaw_driver_node" output="screen">
+    <!-- load from yaml -->
+    <rosparam command="load" file="$(arg roboclaw_settings)" />
+  </node>
+  <node pkg="oit_roboclaw_driver" type="oit_roboclaw_2_wheels.py" name="oit_roboclaw_2_wheels" output="screen">
+    <param name="~process_rate" value="20"/>
+    <param name="~tread" value="0.326"/>
+    <!-- Ticks: 12 * 54 * 4 = 2592 -->
+    <!-- Wheel: 0.0869 * math.pi = 0.27300440159695305 -->
+    <param name="~ticks_per_meter" value="9494.352416437116"/>
+    <param name="~linear_max" value="0.3"/>
+    <!--Radians-->
+    <param name="~angular_max" value="0.52"/>
+  </node>
+</launch>

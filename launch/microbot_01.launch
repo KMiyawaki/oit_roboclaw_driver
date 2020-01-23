@@ -1,0 +1,18 @@
+<launch>
+  <arg name="roboclaw_settings" default="$(find oit_roboclaw_driver)/config/microbot_01.yaml" />
+  <node pkg="oit_roboclaw_driver" type="oit_roboclaw_driver_node.py" name="oit_roboclaw_driver_node" output="screen">
+    <!-- load from yaml -->
+    <rosparam command="load" file="$(arg roboclaw_settings)" />
+  </node>
+  <node pkg="oit_roboclaw_driver" type="oit_roboclaw_2_wheels.py" name="oit_roboclaw_2_wheels" output="screen">
+    <param name="~process_rate" value="20"/>
+    <param name="~tread" value="0.13"/>
+    <!-- 100:1 Micro Metal Gearmotor with 12 CPR Encoder -->
+    <!-- Ticks: 100.37 * 12 = 1204.44 -->
+    <!-- Wheel: 0.06 * Pi = 0.18849555921538758 -->
+    <param name="~ticks_per_meter" value="6389.752655253"/>
+    <param name="~linear_max" value="0.4"/>
+    <!--Radians-->
+    <param name="~angular_max" value="1.57"/>
+  </node>
+</launch>

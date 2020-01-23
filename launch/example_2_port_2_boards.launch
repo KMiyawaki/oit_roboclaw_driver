@@ -1,0 +1,7 @@
+<launch>
+  <arg name="roboclaw_settings" default="$(find oit_roboclaw_driver)/config/example_2_port_2_boards.yaml" />
+  <node pkg="oit_roboclaw_driver" type="oit_roboclaw_driver_node.py" name="oit_roboclaw_driver_node" output="screen">
+    <!-- load from yaml -->
+    <rosparam command="load" file="$(arg roboclaw_settings)" />
+  </node>
+</launch>

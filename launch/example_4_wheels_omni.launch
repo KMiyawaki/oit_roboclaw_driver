@@ -1,0 +1,22 @@
+<launch>
+  <arg name="roboclaw_settings" default="$(find oit_roboclaw_driver)/config/example_2_port_2_boards.yaml" />
+  <node pkg="oit_roboclaw_driver" type="oit_roboclaw_driver_node.py" name="oit_roboclaw_driver_node" output="screen" required="true">
+    <!-- load from yaml -->
+    <rosparam command="load" file="$(arg roboclaw_settings)" />
+  </node>
+  <node pkg="oit_roboclaw_driver" type="oit_roboclaw_4_wheels_omni.py" name="oit_roboclaw_4_wheels_omni" output="screen">
+    <param name="~process_rate" value="20"/>
+    <param name="~center_to_wheel" value="0.259"/>
+    <!--Radians-->
+    <param name="~body_axis_rotation" value="-0.79"/>
+    <!-- https://store.shopping.yahoo.co.jp/suzakulab/ks5n-ig36p-027en.html -->
+    <!-- ticks_per_rotation = 1503.66942152 * 3 -->
+    <!-- https://www.vstone.co.jp/robotshop/index.php?main_page=product_info&cPath=71_894_897&products_id=3775 -->
+    <!-- wheel_diameter = 0.203 -->
+    <!-- ticks_per_meter = ticks_per_rotation / (wheel_diameter * math.pi) -->
+    <param name="~ticks_per_meter" value="7073.391759932179"/>
+    <param name="~linear_max" value="0.3"/>
+    <!--Radians-->
+    <param name="~angular_max" value="0.52"/>
+  </node>
+</launch>

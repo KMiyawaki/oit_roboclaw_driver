@@ -1,0 +1,17 @@
+process_rate: 20 # Hz
+mtor_acceleration: 3500 # ticks
+
+serial_0 :
+    port : /dev/serial/by-id/usb-03eb_USB_Roboclaw_2x7A-if00
+    baud_rate : 38400
+    timeout : 0.1
+    write_timeout : 0.1
+    inter_byte_timeout : 0.005
+
+    roboclaw_0 : 
+        address : 128
+        serial_interval_after_write : 0.000
+        serial_interval_after_read : 0.000
+        motor_index_of_connector_M1 : 0 # Left Wheel index should be 0.
+        motor_index_of_connector_M2 : 1 # Right Wheel index should be 1.
+        
