@@ -47,8 +47,8 @@ class OITRoboClawDriverNode(object):
             if self.__device_map.is_emergency_pushed() == True:
                 emergency = 1
         except:
-            rospy.logerr(node_name)
-            rospy.logerr(traceback.format_exc())
+            rospy.logerr(node_name + ": exception while reading encoder counts.")
+            # rospy.logerr(traceback.format_exc())
 
         self.__pub_emergency.publish(emergency)
 
@@ -59,8 +59,8 @@ class OITRoboClawDriverNode(object):
         try:
             self.__device_map.set_motor_vels(motor_vels)
         except:
-            rospy.logerr(node_name)
-            rospy.logerr(traceback.format_exc())
+            rospy.logerr(node_name + ": exception while setting motor velocities.")
+            # rospy.logerr(traceback.format_exc())
 
     def stop(self):
         rospy.loginfo("Stopping RoboClaw motors.")
