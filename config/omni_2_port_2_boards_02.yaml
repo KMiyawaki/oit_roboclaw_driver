@@ -1,0 +1,30 @@
+process_rate: 20 # Hz
+mtor_acceleration: 3500 # ticks
+
+serial_0:
+    port: /dev/serial/by-path/pci-0000:00:14.0-usb-0:3.2:1.0
+    baud_rate: 38400
+    timeout: 0.1
+    write_timeout: 0.1
+    inter_byte_timeout: 0.1
+
+    roboclaw_0:
+        address: 128
+        serial_interval_after_write: 0.000
+        serial_interval_after_read: 0.000
+        motor_index_of_connector_M1: 1
+        motor_index_of_connector_M2: 2
+
+serial_1:
+    port: /dev/serial/by-path/pci-0000:00:14.0-usb-0:3.1:1.0
+    baud_rate: 38400
+    timeout: 0.1
+    write_timeout: 0.1
+    inter_byte_timeout: 0.1
+
+    roboclaw_0:
+        address: 129
+        serial_interval_after_write: 0.000
+        serial_interval_after_read: 0.000
+        motor_index_of_connector_M1: 3
+        motor_index_of_connector_M2: 0
