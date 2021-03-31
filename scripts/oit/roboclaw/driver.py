@@ -1,9 +1,8 @@
 # -*- coding: utf-8 -*-
-
+import binascii
 import serial
 import struct
 from time import sleep, time
-from PyCRC.CRCCCITT import CRCCCITT as crc
 
 from cmd import Cmd
 from constants import Constants, build_pid_qpps_settings_data
@@ -68,7 +67,7 @@ class Driver(object):
         self.open()
         self.__write_internal(cmd_bytes)
         return_bytes = self.__read_internal(struct.calcsize(fmt) + 2)
-        crc_actual = crc().calculate(cmd_bytes + return_bytes[:-2])
+        crc_actual = binascii.crc_hqx(cmd_bytes + return_bytes[:-2], 0)
         crc_expect = struct.unpack('>H', return_bytes[-2:])[0]
         if crc_actual != crc_expect:
             raise ValueError('CRC failed. return_bytes=' + self.__show_bytes(return_bytes) +
@@ -80,7 +79,7 @@ class Driver(object):
         if fmt is not None and len(data) > 0:
             data_bytes = struct.pack(fmt, *data)
             cmd_bytes = cmd_bytes + data_bytes
-        write_crc = crc().calculate(cmd_bytes) & 0xFFFF
+        write_crc = binascii.crc_hqx(cmd_bytes, 0) & 0xFFFF
         crc_bytes = struct.pack('>H', write_crc)
         self.open()
         self.__write_internal(cmd_bytes + crc_bytes)
