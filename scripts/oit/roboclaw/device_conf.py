@@ -23,6 +23,12 @@ class DeviceConf(object):
         self.__max_roboclaw_size = max_roboclaw_size
         self.build()
 
+    def __str__(self):
+        text = ""
+        for s in self.serial_settings:
+            text += str(s) + "\n"
+        return text
+
     def clear(self):
         self.motor_index = []
         self.serial_settings = []

@@ -70,7 +70,7 @@ class Driver(object):
         crc_actual = binascii.crc_hqx(cmd_bytes + return_bytes[:-2], 0)
         crc_expect = struct.unpack('>H', return_bytes[-2:])[0]
         if crc_actual != crc_expect:
-            raise ValueError('CRC failed. return_bytes=' + self.__show_bytes(return_bytes) +
+            raise ValueError(str(self.get_address()) + ': CRC failed. return_bytes=' + self.__show_bytes(return_bytes) +
                              ', crc_actual=' + format(crc_actual, '0x') + ", crc_expect=" + format(crc_expect, '0x'))
         return struct.unpack(fmt, return_bytes[:-2])
 
@@ -88,7 +88,7 @@ class Driver(object):
         if 0xff != recv:
             sleep(1)
             raise ValueError(
-                'Invailed recv value. (' + str(recv) + ') != 0xFF')
+                str(self.get_address()) + ': Invailed recv value. (' + str(recv) + ') != 0xFF')
 
     # Commands 0 - 7 Compatibility Commands
 
@@ -106,13 +106,13 @@ class Driver(object):
                 cmd = Cmd.M2BACKWARD
         else:
             raise ValueError(
-                'UnKnown Motor Number (' + str(motor_number) + ')')
+                str(self.get_address()) + ': UnKnown Motor Number (' + str(motor_number) + ')')
         if cmd < 0:
             raise ValueError(
-                'UnKnown Direction (' + str(direction) + ')')
+                str(self.get_address()) + ': UnKnown Direction (' + str(direction) + ')')
         if value < 0 or value > 127:
             raise ValueError(
-                'Invailed speed value (' + str(value) + ')')
+                str(self.get_address()) + ': Invailed speed value (' + str(value) + ')')
         self.send_command(cmd, '>B', value)
 
     def drive_forward(self, motor_number, value):
@@ -162,7 +162,7 @@ class Driver(object):
             cmd = Cmd.GETM2ENC
         else:
             raise ValueError(
-                'UnKnown Motor Number (' + str(motor_number) + ')')
+                str(self.get_address()) + ': UnKnown Motor Number (' + str(motor_number) + ')')
         value = self.get_data(cmd, '>iB')
         count = value[0]
         # status = value[1]
@@ -177,7 +177,7 @@ class Driver(object):
             cmd = Cmd.GETM2SPEED
         else:
             raise ValueError(
-                'UnKnown Motor Number (' + str(motor_number) + ')')
+                str(self.get_address()) + ': UnKnown Motor Number (' + str(motor_number) + ')')
         value = self.get_data(cmd, '>iB')
         pulse = value[0]
         _ = value[1]  # ??? direction
@@ -198,7 +198,7 @@ class Driver(object):
             cmd = Cmd.M2SPEED
         else:
             raise ValueError(
-                'UnKnown Motor Number (' + str(motor_number) + ')')
+                str(self.get_address()) + ': UnKnown Motor Number (' + str(motor_number) + ')')
         self.send_command(cmd, '>i', pulses_per_second)
 
     def drive_with_signed_speed_acceleration(self, motor_number, accel, speed):
@@ -209,7 +209,7 @@ class Driver(object):
             cmd = Cmd.M2SPEEDACCEL
         else:
             raise ValueError(
-                'UnKnown Motor Number (' + str(motor_number) + ')')
+                str(self.get_address()) + ': UnKnown Motor Number (' + str(motor_number) + ')')
         self.send_command(cmd, '>Ii', accel, speed)
 
     def drive_m1m2_with_signed_speed_acceleration(self, accel, speed_m1, speed_m2):
@@ -224,7 +224,7 @@ class Driver(object):
             cmd = Cmd.READM2PID
         else:
             raise ValueError(
-                'UnKnown Motor Number (' + str(motor_number) + ')')
+                str(self.get_address()) + ': UnKnown Motor Number (' + str(motor_number) + ')')
         PID = build_pid_qpps_settings_data()
         recv = self.get_data(cmd, '>IIII')
         return PID(recv[0] / 65536.0, recv[1] / 65536.0, recv[2] / 65536.0, recv[3])
