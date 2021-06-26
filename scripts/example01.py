@@ -6,6 +6,7 @@ import traceback
 from serial import Serial
 from time import sleep, time
 import struct
+import sys
 
 from oit.roboclaw.driver import Driver
 from oit.roboclaw.constants import Constants, status_str
@@ -15,8 +16,10 @@ from oit.roboclaw.cmd import Cmd
 def main():
     sp = None
     try:
-        sp = Serial(
-            '/dev/serial/by-id/usb-03eb_USB_Roboclaw_2x30A-if00', 38400, timeout=0.1, write_timeout=0.1, inter_byte_timeout=0.01)
+        port = '/dev/serial/by-id/usb-03eb_USB_Roboclaw_2x30A-if00'  
+        if len(sys.argv) > 1:
+            port = sys.argv[1]
+        sp = Serial(port, 38400, timeout=0.1, write_timeout=0.1, inter_byte_timeout=0.01)
         rc = Driver(sp, 0x80, 0, 0)
 
         print(rc.read_firmware_version())
