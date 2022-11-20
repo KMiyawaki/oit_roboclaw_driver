@@ -46,13 +46,5 @@ class EncoderOdomBase(object):
         odom.child_frame_id = 'base_link'
         odom.twist.twist = twist
 
-        odom.pose.covariance[0] = 0.01
-        odom.pose.covariance[7] = 0.01
-        odom.pose.covariance[14] = 99999
-        odom.pose.covariance[21] = 99999
-        odom.pose.covariance[28] = 99999
-        odom.pose.covariance[35] = 0.01
-        odom.twist.covariance = odom.pose.covariance
-
         rospy.logdebug(print_odom(odom))
         self._odom_pub.publish(odom)
