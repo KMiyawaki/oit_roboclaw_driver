@@ -233,6 +233,6 @@ class Driver(object):
     def is_emergency_pushed(self):
         data = self.get_data_no_crc(Cmd.GETERROR, '>H')
         for d in data:
-            if ord(d) > 0:
+            if d > 0:
                 return True
         return False
