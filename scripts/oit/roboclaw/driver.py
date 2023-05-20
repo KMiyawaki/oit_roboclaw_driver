@@ -4,8 +4,8 @@ import serial
 import struct
 from time import sleep, time
 
-from cmd import Cmd
-from constants import Constants, build_pid_qpps_settings_data
+from oit.roboclaw.cmd import Cmd
+from oit.roboclaw.constants import Constants, build_pid_qpps_settings_data
 
 
 class Driver(object):
