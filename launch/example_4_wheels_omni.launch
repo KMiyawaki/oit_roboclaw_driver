@@ -1,5 +1,5 @@
 <launch>
-  <arg name="roboclaw_settings" default="$(find oit_roboclaw_driver)/config/example_2_port_2_boards.yaml" />
+  <arg name="roboclaw_settings" default="$(find oit_roboclaw_driver)/config/omni_1_port_2_boards_02.yaml" />
   <node pkg="oit_roboclaw_driver" type="oit_roboclaw_driver_node.py" name="oit_roboclaw_driver_node" output="screen" required="true">
     <!-- load from yaml -->
     <rosparam command="load" file="$(arg roboclaw_settings)" />
