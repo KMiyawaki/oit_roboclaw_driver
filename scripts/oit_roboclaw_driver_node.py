@@ -80,7 +80,8 @@ def main():
     rospy.init_node(node_name)
     device_map = None
     process_rate = rospy.get_param("~process_rate", 20.0)
-    motor_accel = rospy.get_param("~mtor_acceleration", 2000)
+    motor_accel = rospy.get_param("~motor_acceleration", 2000)
+    motor_accel = rospy.get_param("~mtor_acceleration", motor_accel) # Care for old param name including typo.
     try:
         device_map = DeviceMap(DeviceConf(), motor_accel)
     except:
